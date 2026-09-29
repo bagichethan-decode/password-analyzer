@@ -373,46 +373,43 @@
     const pwd   = input.value;
     const score = getScore(pwd);
 
-    // 1. Update score badge
     scoreNum.textContent = score;
 
-    // 2. Determine level
     let level = levels[0];
     for (const l of levels) {
       if (score >= l.min) level = l;
     }
 
-    // 3. Update bar
+
     barFill.style.width      = score + '%';
     barFill.style.background = level.color;
 
-    // 4. Update strength label
+   
     strengthTx.textContent = pwd.length ? level.label : '—';
     strengthTx.style.color = pwd.length ? level.color : 'var(--muted)';
 
-    // 5. Update score badge color
+    
     scoreNum.style.color = pwd.length ? level.color : 'var(--text)';
 
-    // 6. Update checklist dots
+
     for (const chk of checks) {
       const el     = document.getElementById(chk.id);
       const passed = chk.test(pwd);
       el.classList.toggle('passed', passed);
     }
 
-    // 7. Find first failing tip
+
     const tip = tips.find(t => t.test(pwd));
     tipText.textContent = tip ? tip.msg : '';
   }
 
-  // ── Show/hide password toggle ───────────────────────────────
   toggleBtn.addEventListener('click', () => {
     const isHidden = input.type === 'password';
     input.type       = isHidden ? 'text' : 'password';
     toggleBtn.textContent = isHidden ? '🙈' : '👁';
   });
 
-  // ── Copy password to clipboard ──────────────────────────────
+
   copyBtn.addEventListener('click', () => {
     if (!input.value) return;
 
@@ -422,7 +419,6 @@
     });
   });
 
-  // ── Run analyze on every keystroke ─────────────────────────
   input.addEventListener('input', analyze);
 
   analyze();
